@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode } from "react";
-import { ApiImplementation, ConcreteApi } from "../api/implementation";
+import { TodoApiAdapter, HttpTodoApi } from "../api/implementation";
 import { Api, TodoItem } from "../api/types";
 
 interface APIContextProps {
@@ -10,8 +10,8 @@ export const APIProviderContext = createContext<APIContextProps>(
   {} as APIContextProps,
 );
 
-const useArticleTreeContext = (temp: Api) => {
-  const api = new ApiImplementation(temp);
+const useArticleTreeContext = (apiImplementation: Api) => {
+  const api = new TodoApiAdapter(apiImplementation);
 
   return {
     listTodo: () => api.listTodo(),
@@ -20,12 +20,12 @@ const useArticleTreeContext = (temp: Api) => {
 
 const ArticleTreeProvider = ({
   children,
-  temp,
+  apiImplementation,
 }: {
   children: ReactNode;
-  temp: Api;
+  apiImplementation: Api;
 }) => {
-  const context = useArticleTreeContext(temp);
+  const context = useArticleTreeContext(apiImplementation);
   return (
     <APIProviderContext.Provider value={context}>
       {children}

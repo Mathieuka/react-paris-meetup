@@ -3,11 +3,11 @@ import "./App.css";
 import ArticleTreeProvider from "./provider/TodoProvider";
 import useApi from "./provider/useApi";
 import { TodoItem } from "./api/types";
-import { ConcreteApi } from "./api/implementation";
+import { HttpTodoApi } from "./api/implementation";
 
 function App() {
   return (
-    <ArticleTreeProvider temp={new ConcreteApi()}>
+    <ArticleTreeProvider apiImplementation={new HttpTodoApi()}>
       <ListTodo />
     </ArticleTreeProvider>
   );

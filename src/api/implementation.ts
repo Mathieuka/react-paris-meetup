@@ -1,6 +1,6 @@
 import { Api, TodoItem } from "./types";
 
-export class fakeApi implements Api {
+export class InMemoryTodoApi implements Api {
   async listTodo(): Promise<TodoItem[]> {
     return new Promise((resolve) => {
       resolve([
@@ -15,7 +15,7 @@ export class fakeApi implements Api {
   }
 }
 
-export class ConcreteApi implements Api {
+export class HttpTodoApi implements Api {
   async listTodo(): Promise<TodoItem[]> {
     const result = await fetch("https://jsonplaceholder.typicode.com/todos");
 
@@ -23,7 +23,7 @@ export class ConcreteApi implements Api {
   }
 }
 
-export class ApiImplementation implements Api {
+export class TodoApiAdapter implements Api {
   constructor(private apiClient: Api) {}
 
   async listTodo(): Promise<TodoItem[]> {

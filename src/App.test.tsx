@@ -1,13 +1,13 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { ListTodo } from "./App";
 import { expect, test } from "vitest";
-import { fakeApi } from "./api/implementation";
+import { InMemoryTodoApi } from "./api/implementation";
 import ArticleTreeProvider from "./provider/TodoProvider";
 
 test("renders learn react link", async () => {
   const { findByText } = render(
-    <ArticleTreeProvider temp={new fakeApi()}>
+    <ArticleTreeProvider apiImplementation={new InMemoryTodoApi()}>
       <ListTodo />{" "}
     </ArticleTreeProvider>,
   );
