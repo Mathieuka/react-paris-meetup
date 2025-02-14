@@ -1,22 +1,31 @@
 import React, { createContext, ReactNode } from "react";
+import { ApiImplementation, ConcreteApi } from "../api/implementation";
+import { Api, TodoItem } from "../api/types";
 
 interface APIContextProps {
-  listTodo: () => Promise<string[]>;
+  listTodo: () => Promise<TodoItem[]>;
 }
 
 export const APIProviderContext = createContext<APIContextProps>(
   {} as APIContextProps,
 );
 
-const useArticleTreeContext = () => {
+const useArticleTreeContext = (temp: Api) => {
+  const api = new ApiImplementation(temp);
+
   return {
-    listTodo: () =>
-      Promise.resolve(["Todo 1", "Todo 2", "Todo 3", "Todo 4", "Todo 5"]),
+    listTodo: () => api.listTodo(),
   };
 };
 
-const ArticleTreeProvider = ({ children }: { children: ReactNode }) => {
-  const context = useArticleTreeContext();
+const ArticleTreeProvider = ({
+  children,
+  temp,
+}: {
+  children: ReactNode;
+  temp: Api;
+}) => {
+  const context = useArticleTreeContext(temp);
   return (
     <APIProviderContext.Provider value={context}>
       {children}
