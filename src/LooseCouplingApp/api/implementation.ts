@@ -11,7 +11,8 @@ export class InMemoryTaskApi implements Api {
     this.findTaskStub = stub.findTask;
   }
 
-  async findTask(): Promise<TaskItem> {
+  async findTask(id: string): Promise<TaskItem> {
+    console.log(`Task id: ${id}`);
     return new Promise((resolve) => {
       resolve(this.findTaskStub);
     });
@@ -20,11 +21,15 @@ export class InMemoryTaskApi implements Api {
 
 export class TaskApi implements Api {
   async findTask(id: string): Promise<TaskItem> {
-    const result = await fetch(
-      `https://jsonplaceholder.typicode.com/todos/${id}`,
-    );
+    try {
+      const result = await fetch(
+        `https://jsonplaceholder.typicode.com/todos/${id}`,
+      );
 
-    return result.json();
+      return result.json();
+    } catch (e) {
+      throw new Error(`Failed to fetch task with id ${id}`);
+    }
   }
 }
 

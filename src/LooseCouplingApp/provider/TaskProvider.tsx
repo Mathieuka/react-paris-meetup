@@ -18,7 +18,9 @@ const createTodoApiContext = (apiImplementation: Api) => {
   return {
     listTask: async (id: string) => {
       const task = await taskApi.findTask(id);
-      return Effect.runPromise(processTask(task));
+      const program = processTask(task);
+
+      return Effect.runPromise(program);
     },
   };
 };
