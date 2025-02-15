@@ -7,18 +7,17 @@ import TaskApiProvider from "./provider/TaskProvider";
 function LooseCouplingApp() {
   return (
     <TaskApiProvider apiImplementation={new TaskApi()}>
-      <LooseTask />
+      <Task />
     </TaskApiProvider>
   );
 }
 
-export const LooseTask = () => {
+export const Task = () => {
   const task = useFetchTask("1");
 
   return (
     <div>
       <h1>Loose Tasks</h1>
-
       {!task && <p>Loading...</p>}
       {task && <li key={task.id}>{task.title}</li>}
     </div>

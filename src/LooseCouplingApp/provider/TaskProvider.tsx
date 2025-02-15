@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode } from "react";
 import { Api, TaskItem } from "../api/types";
 import { TaskApiAdapter } from "../api/implementation";
+import { processTodo } from "../thirdApi/storeTaskInStorage";
 
 interface APIContextProps {
   listTask: (id: string) => Promise<TaskItem>;
@@ -11,10 +12,15 @@ export const APIProviderContext = createContext<APIContextProps>({
 });
 
 const createTodoApiContext = (apiImplementation: Api) => {
-  const api = new TaskApiAdapter(apiImplementation);
+  const taskApi = new TaskApiAdapter(apiImplementation);
 
   return {
-    listTask: (id: string) => api.findTask(id),
+    listTask: async (id: string) => {
+      const task = await taskApi.findTask(id);
+      processTodo(task);
+
+      return task;
+    },
   };
 };
 

@@ -33,13 +33,6 @@ export class TaskApi implements Api {
   }
 }
 
-const processTodo = (todo: TaskItem | undefined): TaskItem | undefined => {
-  // Call s3 bucket
-  console.log("LOG Process todo...⚙️");
-
-  return todo;
-};
-
 export class TaskApiAdapter implements Api {
   constructor(private apiClient: Api) {}
 
