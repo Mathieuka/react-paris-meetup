@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import ArticleTreeProvider from "./provider/TodoProvider";
+import TodoApiProvider from "./provider/TodoProvider";
 import useApi from "./provider/useApi";
 import { TodoItem } from "./api/types";
-import { HttpTodoApi } from "./api/implementation";
+import { TodoApi } from "./api/implementation";
 
 function App() {
   return (
-    <ArticleTreeProvider apiImplementation={new HttpTodoApi()}>
+    <TodoApiProvider apiImplementation={new TodoApi()}>
       <ListTodo />
-    </ArticleTreeProvider>
+    </TodoApiProvider>
   );
 }
 

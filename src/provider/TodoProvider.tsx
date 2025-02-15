@@ -1,16 +1,16 @@
 import React, { createContext, ReactNode } from "react";
-import { TodoApiAdapter, HttpTodoApi } from "../api/implementation";
+import { TodoApiAdapter } from "../api/implementation";
 import { Api, TodoItem } from "../api/types";
 
 interface APIContextProps {
   listTodo: () => Promise<TodoItem[]>;
 }
 
-export const APIProviderContext = createContext<APIContextProps>(
-  {} as APIContextProps,
-);
+export const APIProviderContext = createContext<APIContextProps>({
+  listTodo: () => Promise.resolve([]),
+});
 
-const useArticleTreeContext = (apiImplementation: Api) => {
+const createTodoApiContext = (apiImplementation: Api) => {
   const api = new TodoApiAdapter(apiImplementation);
 
   return {
@@ -18,19 +18,16 @@ const useArticleTreeContext = (apiImplementation: Api) => {
   };
 };
 
-const ArticleTreeProvider = ({
+const TodoApiProvider = ({
   children,
   apiImplementation,
 }: {
   children: ReactNode;
   apiImplementation: Api;
-}) => {
-  const context = useArticleTreeContext(apiImplementation);
-  return (
-    <APIProviderContext.Provider value={context}>
-      {children}
-    </APIProviderContext.Provider>
-  );
-};
+}) => (
+  <APIProviderContext.Provider value={createTodoApiContext(apiImplementation)}>
+    {children}
+  </APIProviderContext.Provider>
+);
 
-export default ArticleTreeProvider;
+export default TodoApiProvider;
