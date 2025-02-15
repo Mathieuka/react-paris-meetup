@@ -1,8 +1,8 @@
 import React, { createContext, ReactNode } from "react";
-import { Api, TaskItem } from "../api/types";
 import { TaskApiAdapter } from "../api/implementation";
-import { processTask } from "../api/storeTaskInStorage";
 import { Effect } from "effect";
+import { Api, TaskItem } from "../core/types";
+import { processTask } from "../api/processTask";
 
 interface APIContextProps {
   listTask: (id: string) => Promise<TaskItem>;
@@ -17,8 +17,8 @@ const createTodoApiContext = (apiImplementation: Api) => {
 
   return {
     listTask: async (id: string) => {
-      const task = await taskApi.findTask(id);
-      const program = processTask(task);
+      const task = await taskApi.findTask(id); // Fetch task
+      const program = processTask(task); // S3 store task
 
       return Effect.runPromise(program);
     },

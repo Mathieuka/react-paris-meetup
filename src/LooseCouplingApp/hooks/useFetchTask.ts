@@ -1,6 +1,6 @@
 import useApi from "../provider/useApi";
 import { useEffect, useState } from "react";
-import { TaskItem } from "../api/types";
+import { TaskItem } from "../core/types";
 
 export const useFetchTask = (todosId: string) => {
   const { listTask } = useApi();

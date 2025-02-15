@@ -1,4 +1,4 @@
-import { Api, TaskItem } from "./types";
+import { Api, TaskItem } from "../core/types";
 
 type Stub = {
   findTask: TaskItem;

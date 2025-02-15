@@ -4,7 +4,7 @@ import { describe, expect, test, vi } from "vitest";
 import { InMemoryTaskApi } from "./api/implementation";
 import { Task } from "./LooseCouplingApp";
 import TaskApiProvider from "./provider/TaskProvider";
-import * as storeTaskInStorageModule from "./api/storeTaskInStorage";
+import * as storeTaskInStorageModule from "./api/processTask";
 import * as S3 from "./thirdApi/s3";
 import { Effect } from "effect";
 

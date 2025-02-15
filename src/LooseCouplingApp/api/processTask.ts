@@ -1,6 +1,7 @@
-import { TaskItem } from "./types";
-import { Data, Effect } from "effect";
-import { BucketS3Error, persistTaskToS3 } from "../thirdApi/s3";
+import { Effect } from "effect";
+import { persistTaskToS3 } from "../thirdApi/s3";
+import { TaskItem } from "../core/types";
+import { BucketS3Error, UnexpectedError } from "../exception";
 
 // Consider applying the Dependency Inversion Principle here to increase flexibility and maintainability.
 // This would involve decoupling the high-level processTodo function from low-level storage details,
@@ -24,12 +25,3 @@ export const processTask = (
     return persistedTask;
   });
 };
-
-export class UnexpectedError extends Data.TaggedError("UnexpectedError") {
-  message = "Unexpected error occurred";
-
-  constructor(public readonly error: unknown) {
-    super();
-    console.error("UnexpectedError:", error);
-  }
-}
