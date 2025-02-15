@@ -1,7 +1,8 @@
 import React, { createContext, ReactNode } from "react";
 import { Api, TaskItem } from "../api/types";
 import { TaskApiAdapter } from "../api/implementation";
-import { processTodo } from "../thirdApi/storeTaskInStorage";
+import { processTodo } from "../api/storeTaskInStorage";
+import { Effect } from "effect";
 
 interface APIContextProps {
   listTask: (id: string) => Promise<TaskItem>;
@@ -17,9 +18,9 @@ const createTodoApiContext = (apiImplementation: Api) => {
   return {
     listTask: async (id: string) => {
       const task = await taskApi.findTask(id);
-      await processTodo(task);
+      const program = processTodo(task);
 
-      return task;
+      return Effect.runPromise(program);
     },
   };
 };
