@@ -1,9 +1,9 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import App from "./App";
+import LooseTasks from "./LooseTasks";
 import { expect, test } from "vitest";
-import { InMemoryTodoApi } from "./api/implementation";
 import TodoApiProvider from "./provider/TodoProvider";
+import { InMemoryTodoApi } from "./api/implementation";
 
 test("renders learn react link", async () => {
   const { findByText } = render(
@@ -23,7 +23,7 @@ test("renders learn react link", async () => {
         })
       }
     >
-      <App />
+      <LooseTasks />
     </TodoApiProvider>,
   );
 

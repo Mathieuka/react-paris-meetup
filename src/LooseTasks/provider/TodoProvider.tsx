@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode } from "react";
-import { TodoApiAdapter } from "../api/implementation";
 import { Api, TodoItem } from "../api/types";
+import { TodoApiAdapter } from "../api/implementation";
 
 interface APIContextProps {
   listTodo: () => Promise<TodoItem[]>;

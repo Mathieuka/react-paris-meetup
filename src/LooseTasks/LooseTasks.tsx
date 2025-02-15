@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
-import TodoApiProvider from "./provider/TodoProvider";
+import "../App.css";
 import useApi from "./provider/useApi";
 import { TodoItem } from "./api/types";
+import TodoApiProvider from "./provider/TodoProvider";
 import { TodoApi } from "./api/implementation";
 
-function App() {
+function LooseTasks() {
   return <ListTodo />;
 }
 
@@ -32,4 +32,4 @@ export const ListTodo = () => {
   );
 };
 
-export default App;
+export default LooseTasks;
