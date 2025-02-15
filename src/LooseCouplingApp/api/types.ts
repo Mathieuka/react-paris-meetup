@@ -1,4 +1,4 @@
-export interface TodoItem {
+export interface TaskItem {
   userId: number;
   id: number;
   title: string;
@@ -6,5 +6,5 @@ export interface TodoItem {
 }
 
 export interface Api {
-  findTask: (id: string) => Promise<TodoItem>;
+  findTask: (id: string) => Promise<TaskItem>;
 }

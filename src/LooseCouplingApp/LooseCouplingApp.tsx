@@ -1,8 +1,8 @@
 import React from "react";
-import TaskApiProvider from "./provider/TodoProvider";
 import { TaskApi } from "./api/implementation";
 import "./LooseCouplingApp.css";
 import { useFetchTask } from "./hooks/useFetchTask";
+import TaskApiProvider from "./provider/TaskProvider";
 
 function LooseCouplingApp() {
   return (
@@ -13,14 +13,14 @@ function LooseCouplingApp() {
 }
 
 export const LooseTask = () => {
-  const todo = useFetchTask("1");
+  const task = useFetchTask("1");
 
   return (
     <div>
       <h1>Loose Tasks</h1>
 
-      {!todo && <p>Loading...</p>}
-      {todo && <li key={todo.id}>{todo.title}</li>}
+      {!task && <p>Loading...</p>}
+      {task && <li key={task.id}>{task.title}</li>}
     </div>
   );
 };

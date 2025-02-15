@@ -3,10 +3,10 @@ import "./TightTasks.css";
 import { useFetchTask } from "./hooks/useFetchTask";
 
 function TightCouplingApp() {
-  return <ListTodo />;
+  return <ListTask />;
 }
 
-const ListTodo = () => {
+const ListTask = () => {
   const todo = useFetchTask("1");
 
   return (

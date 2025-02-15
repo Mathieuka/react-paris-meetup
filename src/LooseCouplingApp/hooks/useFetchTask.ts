@@ -1,15 +1,15 @@
 import useApi from "../provider/useApi";
 import { useEffect, useState } from "react";
-import { TodoItem } from "../api/types";
+import { TaskItem } from "../api/types";
 
 export const useFetchTask = (todosId: string) => {
-  const { listTodo } = useApi();
-  const [todo, setTodo] = useState<TodoItem>();
+  const { listTask } = useApi();
+  const [todo, setTodo] = useState<TaskItem>();
 
   useEffect(() => {
-    listTodo(todosId).then((todo) => {
+    listTask(todosId).then((todo) => {
       setTodo(todo);
     });
-  }, [listTodo, todosId]);
+  }, [listTask, todosId]);
   return todo;
 };

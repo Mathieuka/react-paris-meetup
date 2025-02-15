@@ -1,20 +1,20 @@
 import React, { createContext, ReactNode } from "react";
-import { Api, TodoItem } from "../api/types";
-import { TodoApiAdapter } from "../api/implementation";
+import { Api, TaskItem } from "../api/types";
+import { TaskApiAdapter } from "../api/implementation";
 
 interface APIContextProps {
-  listTodo: (id: string) => Promise<TodoItem>;
+  listTask: (id: string) => Promise<TaskItem>;
 }
 
 export const APIProviderContext = createContext<APIContextProps>({
-  listTodo: () => Promise.resolve({} as TodoItem),
+  listTask: () => Promise.resolve({} as TaskItem),
 });
 
 const createTodoApiContext = (apiImplementation: Api) => {
-  const api = new TodoApiAdapter(apiImplementation);
+  const api = new TaskApiAdapter(apiImplementation);
 
   return {
-    listTodo: (id: string) => api.findTask(id),
+    listTask: (id: string) => api.findTask(id),
   };
 };
 
