@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "./TightTasks.css";
 import { useFetchTodo } from "./hooks/useFetchTodo";
 
 export const ListTodo = () => {
@@ -7,7 +7,7 @@ export const ListTodo = () => {
 
   return (
     <div>
-      <h1>Todos</h1>
+      <h1>Tight Tasks</h1>
       {!todo && <p>Loading...</p>}
       {todo && <li key={todo.id}>{todo.title}</li>}
     </div>
