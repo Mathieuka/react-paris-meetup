@@ -5,7 +5,7 @@ import { BucketS3Error, persistTaskToS3 } from "../thirdApi/s3";
 // Consider applying the Dependency Inversion Principle here to increase flexibility and maintainability.
 // This would involve decoupling the high-level processTodo function from low-level storage details,
 // allowing for easier changes to storage mechanisms in the future.
-export const processTodo = (
+export const processTask = (
   task: TaskItem | undefined,
 ): Effect.Effect<TaskItem, UnexpectedError | BucketS3Error, never> => {
   return Effect.gen(function* (_) {

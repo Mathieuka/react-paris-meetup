@@ -10,7 +10,7 @@ import { Effect } from "effect";
 
 describe("Loose Coupling App", () => {
   test("renders LossTasks", async () => {
-    vi.spyOn(storeTaskInStorageModule, "processTodo");
+    vi.spyOn(storeTaskInStorageModule, "processTask");
 
     vi.spyOn(S3, "persistTaskToS3");
     const s3StoreFunctionSpy = vi.spyOn(S3, "persistTaskToS3");
