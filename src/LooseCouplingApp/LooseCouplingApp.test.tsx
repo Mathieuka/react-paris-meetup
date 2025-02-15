@@ -1,12 +1,11 @@
 import React from "react";
 import { render } from "@testing-library/react";
-
 import { describe, expect, test } from "vitest";
 import TaskApiProvider from "./provider/TodoProvider";
 import { InMemoryTaskApi } from "./api/implementation";
 import { LooseTask } from "./LooseCouplingApp";
 
-describe("LooseTasks", () => {
+describe("Loose Coupling App", () => {
   test("renders LossTasks", async () => {
     const { findByText } = render(
       <TaskApiProvider

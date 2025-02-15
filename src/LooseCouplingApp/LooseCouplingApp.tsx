@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import useApi from "./provider/useApi";
-import { TodoItem } from "./api/types";
+import React from "react";
 import TaskApiProvider from "./provider/TodoProvider";
 import { TaskApi } from "./api/implementation";
 import "./LooseCouplingApp.css";
+import { useFetchTask } from "./hooks/useFetchTask";
 
 function LooseCouplingApp() {
   return (
@@ -12,20 +11,9 @@ function LooseCouplingApp() {
     </TaskApiProvider>
   );
 }
-const useFetchTodo = (todosId: string) => {
-  const { listTodo } = useApi();
-  const [todo, setTodo] = useState<TodoItem>();
-
-  useEffect(() => {
-    listTodo(todosId).then((todo) => {
-      setTodo(todo);
-    });
-  }, [listTodo, todosId]);
-  return todo;
-};
 
 export const LooseTask = () => {
-  const todo = useFetchTodo("1");
+  const todo = useFetchTask("1");
 
   return (
     <div>
