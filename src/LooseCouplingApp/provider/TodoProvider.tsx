@@ -14,11 +14,11 @@ const createTodoApiContext = (apiImplementation: Api) => {
   const api = new TodoApiAdapter(apiImplementation);
 
   return {
-    listTodo: (id: string) => api.findTodo(id),
+    listTodo: (id: string) => api.findTask(id),
   };
 };
 
-const TodoApiProvider = ({
+const TaskApiProvider = ({
   children,
   apiImplementation,
 }: {
@@ -30,4 +30,4 @@ const TodoApiProvider = ({
   </APIProviderContext.Provider>
 );
 
-export default TodoApiProvider;
+export default TaskApiProvider;

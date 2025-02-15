@@ -1,11 +1,11 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
-import TightTasks from "./TightTasks";
-import * as useFetchTodoModule from "./hooks/useFetchTodo";
+import TightCouplingApp from "./TightCouplingApp";
+import * as useFetchTaskModule from "./hooks/useFetchTask";
 
 test("TightTasks", async () => {
-  const useFetchTodoSpy = vi.spyOn(useFetchTodoModule, "useFetchTodo");
+  const useFetchTodoSpy = vi.spyOn(useFetchTaskModule, "useFetchTask");
 
   useFetchTodoSpy.mockReturnValue({
     userId: 1,
@@ -14,7 +14,7 @@ test("TightTasks", async () => {
     completed: false,
   });
 
-  const { findByText } = render(<TightTasks />);
+  const { findByText } = render(<TightCouplingApp />);
 
   expect(useFetchTodoSpy).toHaveBeenCalledWith("1");
   expect(useFetchTodoSpy).toHaveBeenCalledTimes(1);

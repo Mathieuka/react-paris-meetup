@@ -6,5 +6,5 @@ export interface TodoItem {
 }
 
 export interface Api {
-  findTodo: (id: string) => Promise<TodoItem>;
+  findTask: (id: string) => Promise<TodoItem>;
 }

@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
-import { TodoItem } from "../../LooseTasks/api/types";
+
+export interface TodoItem {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
 
 const processTodo = (todo: TodoItem | undefined): TodoItem | undefined => {
+  // Call s3 bucket
   console.log("LOG Process todo...⚙️");
 
   return todo;
 };
 
-export const useFetchTodo = (todosId: string) => {
+export const useFetchTask = (todosId: string) => {
   const [todo, setTodo] = useState<TodoItem>();
 
   useEffect(() => {

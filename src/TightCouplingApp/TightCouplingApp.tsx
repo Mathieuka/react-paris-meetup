@@ -1,9 +1,13 @@
 import React from "react";
 import "./TightTasks.css";
-import { useFetchTodo } from "./hooks/useFetchTodo";
+import { useFetchTask } from "./hooks/useFetchTask";
 
-export const ListTodo = () => {
-  const todo = useFetchTodo("1");
+function TightCouplingApp() {
+  return <ListTodo />;
+}
+
+const ListTodo = () => {
+  const todo = useFetchTask("1");
 
   return (
     <div>
@@ -14,8 +18,4 @@ export const ListTodo = () => {
   );
 };
 
-function TightTasks() {
-  return <ListTodo />;
-}
-
-export default TightTasks;
+export default TightCouplingApp;
