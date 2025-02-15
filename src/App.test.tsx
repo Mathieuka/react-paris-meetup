@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { ListTodo } from "./App";
+import App from "./App";
 import { expect, test } from "vitest";
 import { InMemoryTodoApi } from "./api/implementation";
 import TodoApiProvider from "./provider/TodoProvider";
@@ -23,7 +23,7 @@ test("renders learn react link", async () => {
         })
       }
     >
-      <ListTodo />
+      <App />
     </TodoApiProvider>,
   );
 

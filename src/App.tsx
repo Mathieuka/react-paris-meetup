@@ -6,11 +6,7 @@ import { TodoItem } from "./api/types";
 import { TodoApi } from "./api/implementation";
 
 function App() {
-  return (
-    <TodoApiProvider apiImplementation={new TodoApi()}>
-      <ListTodo />
-    </TodoApiProvider>
-  );
+  return <ListTodo />;
 }
 
 export const ListTodo = () => {
@@ -22,15 +18,17 @@ export const ListTodo = () => {
   }, [listTodo]);
 
   return (
-    <div>
-      <h1>Todos</h1>
+    <TodoApiProvider apiImplementation={new TodoApi()}>
+      <div>
+        <h1>Todos</h1>
 
-      {todos.length === 0 ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>{todos?.map((todo) => <li key={todo.id}>{todo.title}</li>)}</ul>
-      )}
-    </div>
+        {todos.length === 0 ? (
+          <p>Loading...</p>
+        ) : (
+          <ul>{todos?.map((todo) => <li key={todo.id}>{todo.title}</li>)}</ul>
+        )}
+      </div>
+    </TodoApiProvider>
   );
 };
 
