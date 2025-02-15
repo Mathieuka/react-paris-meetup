@@ -1,24 +1,26 @@
 import { Api, TodoItem } from "./types";
 
 type TodoApiData = {
-  initialTodos: Promise<TodoItem[]>;
+  initialTodos: Promise<TodoItem>;
 };
 
 export class InMemoryTodoApi implements Api {
-  private readonly listTodoResult: Promise<TodoItem[]>;
+  private readonly findTodoResult: Promise<TodoItem>;
 
   constructor(private initialData: TodoApiData) {
-    this.listTodoResult = initialData.initialTodos;
+    this.findTodoResult = initialData.initialTodos;
   }
 
-  async listTodo(): Promise<TodoItem[]> {
-    return this.listTodoResult;
+  async findTodo(): Promise<TodoItem> {
+    return this.findTodoResult;
   }
 }
 
 export class TodoApi implements Api {
-  async listTodo(): Promise<TodoItem[]> {
-    const result = await fetch("https://jsonplaceholder.typicode.com/todos");
+  async findTodo(id: string): Promise<TodoItem> {
+    const result = await fetch(
+      `https://jsonplaceholder.typicode.com/todos/${id}`,
+    );
 
     return result.json();
   }
@@ -27,7 +29,7 @@ export class TodoApi implements Api {
 export class TodoApiAdapter implements Api {
   constructor(private apiClient: Api) {}
 
-  async listTodo(): Promise<TodoItem[]> {
-    return this.apiClient.listTodo();
+  async findTodo(id: string): Promise<TodoItem> {
+    return this.apiClient.findTodo(id);
   }
 }

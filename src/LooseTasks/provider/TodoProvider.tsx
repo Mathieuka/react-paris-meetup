@@ -3,18 +3,18 @@ import { Api, TodoItem } from "../api/types";
 import { TodoApiAdapter } from "../api/implementation";
 
 interface APIContextProps {
-  listTodo: () => Promise<TodoItem[]>;
+  listTodo: (id: string) => Promise<TodoItem>;
 }
 
 export const APIProviderContext = createContext<APIContextProps>({
-  listTodo: () => Promise.resolve([]),
+  listTodo: () => Promise.resolve({} as TodoItem),
 });
 
 const createTodoApiContext = (apiImplementation: Api) => {
   const api = new TodoApiAdapter(apiImplementation);
 
   return {
-    listTodo: () => api.listTodo(),
+    listTodo: (id: string) => api.findTodo(id),
   };
 };
 

@@ -11,14 +11,12 @@ test("renders learn react link", async () => {
       apiImplementation={
         new InMemoryTodoApi({
           initialTodos: new Promise((resolve) => {
-            resolve([
-              {
-                userId: 1,
-                id: 1,
-                title: "Fake implementation",
-                completed: false,
-              },
-            ]);
+            resolve({
+              userId: 1,
+              id: 1,
+              title: "Fake implementation",
+              completed: false,
+            });
           }),
         })
       }

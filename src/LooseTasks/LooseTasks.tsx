@@ -6,29 +6,30 @@ import TodoApiProvider from "./provider/TodoProvider";
 import { TodoApi } from "./api/implementation";
 
 function LooseTasks() {
-  return <ListTodo />;
+  return (
+    <TodoApiProvider apiImplementation={new TodoApi()}>
+      <ListTodo />
+    </TodoApiProvider>
+  );
 }
 
 export const ListTodo = () => {
   const { listTodo } = useApi();
-  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [todo, setTodo] = useState<TodoItem>();
 
   useEffect(() => {
-    listTodo().then((todos) => setTodos(todos));
+    listTodo("1").then((todo) => {
+      setTodo(todo);
+    });
   }, [listTodo]);
 
   return (
-    <TodoApiProvider apiImplementation={new TodoApi()}>
-      <div>
-        <h1>Todos</h1>
+    <div>
+      <h1>Todos</h1>
 
-        {todos.length === 0 ? (
-          <p>Loading...</p>
-        ) : (
-          <ul>{todos?.map((todo) => <li key={todo.id}>{todo.title}</li>)}</ul>
-        )}
-      </div>
-    </TodoApiProvider>
+      {!todo && <p>Loading...</p>}
+      {todo && <li key={todo.id}>{todo.title}</li>}
+    </div>
   );
 };
 
