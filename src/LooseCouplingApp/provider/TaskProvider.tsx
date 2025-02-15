@@ -17,7 +17,7 @@ const createTodoApiContext = (apiImplementation: Api) => {
   return {
     listTask: async (id: string) => {
       const task = await taskApi.findTask(id);
-      processTodo(task);
+      await processTodo(task);
 
       return task;
     },

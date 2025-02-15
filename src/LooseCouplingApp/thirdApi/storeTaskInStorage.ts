@@ -4,6 +4,6 @@
 
 import { TaskItem } from "../api/types";
 
-export const processTodo = (todo: TaskItem): void => {
+export const processTodo = async (todo: TaskItem): Promise<void> => {
   console.log(`⚙️...Process todo, store task in storage with id : ${todo.id}`);
 };

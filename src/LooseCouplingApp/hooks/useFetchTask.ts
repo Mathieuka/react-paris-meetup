@@ -11,5 +11,6 @@ export const useFetchTask = (todosId: string) => {
       setTodo(todo);
     });
   }, [listTask, todosId]);
+
   return todo;
 };
