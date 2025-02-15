@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { TodoItem } from "../../LooseTasks/api/types";
 
+const processTodo = (todo: TodoItem | undefined): TodoItem | undefined => {
+  console.log("LOG Process todo...⚙️");
+
+  return todo;
+};
+
 export const useFetchTodo = (todosId: string) => {
-  const [todos, setTodos] = useState<TodoItem>();
+  const [todo, setTodo] = useState<TodoItem>();
 
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/todos/${todosId}`)
       .then((response) => response.json())
-      .then((data) => setTodos(data));
+      .then((data) => setTodo(data));
   }, [todosId]);
 
-  return todos;
+  return processTodo(todo);
 };
