@@ -2,11 +2,11 @@ import { TaskItem } from "../api/types";
 
 import { Data, Effect } from "effect";
 
-export const s3StoreFunction = (
+export const persistTaskToS3 = (
   task: TaskItem,
 ): Effect.Effect<TaskItem, BucketS3Error, never> => {
   return Effect.gen(function* (_) {
-    console.log(`⚙️...Process todo, store task in storage`);
+    console.log(`⚙️...S3 processing`);
 
     if (!task) {
       return yield* _(
@@ -14,7 +14,7 @@ export const s3StoreFunction = (
       );
     }
 
-    console.log(`✅...Process todo, task stored with id : ${task.id}`);
+    console.log(`✅ S3 task processed`);
 
     return yield* _(Effect.succeed(task));
   });

@@ -13,12 +13,7 @@ export class InMemoryTaskApi implements Api {
 
   async findTask(): Promise<TaskItem> {
     return new Promise((resolve) => {
-      resolve({
-        userId: 1,
-        id: 1,
-        title: "Fake implementation",
-        completed: false,
-      });
+      resolve(this.findTaskStub);
     });
   }
 }

@@ -12,8 +12,8 @@ describe("Loose Coupling App", () => {
   test("renders LossTasks", async () => {
     vi.spyOn(storeTaskInStorageModule, "processTodo");
 
-    vi.spyOn(S3, "s3StoreFunction");
-    const s3StoreFunctionSpy = vi.spyOn(S3, "s3StoreFunction");
+    vi.spyOn(S3, "persistTaskToS3");
+    const s3StoreFunctionSpy = vi.spyOn(S3, "persistTaskToS3");
     s3StoreFunctionSpy.mockReturnValue(
       Effect.succeed({
         userId: 1,
@@ -42,8 +42,8 @@ describe("Loose Coupling App", () => {
 
     expect(await findByText(/Fake implementation/i)).toBeInTheDocument();
 
-    expect(S3.s3StoreFunction).toHaveBeenCalledTimes(1);
-    expect(S3.s3StoreFunction).toHaveBeenCalledWith(
+    expect(S3.persistTaskToS3).toHaveBeenCalledTimes(1);
+    expect(S3.persistTaskToS3).toHaveBeenCalledWith(
       expect.objectContaining({
         id: 1,
         title: "Fake implementation",
