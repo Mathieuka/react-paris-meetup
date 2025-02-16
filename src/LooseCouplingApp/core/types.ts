@@ -8,11 +8,11 @@ export interface TaskItem {
   completed: boolean;
 }
 
-export interface Api {
+export interface TaskApi {
   findTask: (id: string) => Promise<TaskItem>;
 }
 
-export interface Storage {
+export interface StorageApi {
   storeTask: (
     task: TaskItem,
   ) => Effect.Effect<TaskItem, UnexpectedError, never>;

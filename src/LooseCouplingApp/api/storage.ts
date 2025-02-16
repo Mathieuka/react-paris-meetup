@@ -1,8 +1,8 @@
 import { Effect } from "effect";
-import { Storage, TaskItem } from "../core/types";
+import { StorageApi, TaskItem } from "../core/types";
 import { UnexpectedError } from "../exception";
 
-export class InMemoryStorage implements Storage {
+export class InMemoryStorage implements StorageApi {
   public calls: number = 0;
   public callWith: TaskItem | undefined;
 
@@ -28,7 +28,7 @@ export class InMemoryStorage implements Storage {
   }
 }
 
-export class S3Storage implements Storage {
+export class S3StorageService implements StorageApi {
   storeTask(
     task: TaskItem | undefined,
   ): Effect.Effect<TaskItem, UnexpectedError> {
@@ -49,8 +49,8 @@ export class S3Storage implements Storage {
   }
 }
 
-export class StorageAdapter implements Storage {
-  constructor(private storageClient: Storage) {}
+export class StorageAdapter implements StorageApi {
+  constructor(private storageClient: StorageApi) {}
 
   storeTask(task: TaskItem): Effect.Effect<TaskItem, UnexpectedError> {
     return Effect.gen(this, function* (_) {
