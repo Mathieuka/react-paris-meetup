@@ -1,27 +1,14 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
-import { InMemoryTaskApi } from "./api/implementation";
+import { InMemoryTaskApi } from "./api/task";
 import { Task } from "./LooseCouplingApp";
 import TaskApiProvider from "./provider/TaskProvider";
-import * as storeTaskInStorageModule from "./api/processTask";
-import * as S3 from "./thirdApi/s3";
-import { Effect } from "effect";
+import { InMemoryStorage } from "./api/storage";
 
 describe("Loose Coupling App", () => {
   test("renders LossTasks", async () => {
-    vi.spyOn(storeTaskInStorageModule, "processTask");
-
-    vi.spyOn(S3, "persistTaskToS3");
-    const s3StoreFunctionSpy = vi.spyOn(S3, "persistTaskToS3");
-    s3StoreFunctionSpy.mockReturnValue(
-      Effect.succeed({
-        userId: 1,
-        id: 1,
-        title: "Fake implementation",
-        completed: false,
-      }),
-    );
+    const inMemoryStorage = new InMemoryStorage();
 
     const { findByText } = render(
       <TaskApiProvider
@@ -35,20 +22,22 @@ describe("Loose Coupling App", () => {
             },
           })
         }
+        storageImplementation={inMemoryStorage}
       >
         <Task />
       </TaskApiProvider>,
     );
 
-    expect(await findByText(/Fake implementation/i)).toBeInTheDocument();
-
-    expect(S3.persistTaskToS3).toHaveBeenCalledTimes(1);
-    expect(S3.persistTaskToS3).toHaveBeenCalledWith(
-      expect.objectContaining({
+    await waitFor(() => {
+      expect(inMemoryStorage.calls).toBe(1);
+      expect(inMemoryStorage.callWith).toStrictEqual({
+        completed: false,
         id: 1,
         title: "Fake implementation",
-        completed: false,
-      }),
-    );
+        userId: 1,
+      });
+    });
+
+    expect(await findByText(/Fake implementation/i)).toBeInTheDocument();
   });
 });

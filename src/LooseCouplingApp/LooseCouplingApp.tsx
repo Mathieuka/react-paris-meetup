@@ -1,12 +1,16 @@
 import React from "react";
-import { TaskApi } from "./api/implementation";
+import { TaskApi } from "./api/task";
 import "./LooseCouplingApp.css";
 import { useFetchTask } from "./hooks/useFetchTask";
 import TaskApiProvider from "./provider/TaskProvider";
+import { S3Storage } from "./api/storage";
 
 function LooseCouplingApp() {
   return (
-    <TaskApiProvider apiImplementation={new TaskApi()}>
+    <TaskApiProvider
+      apiImplementation={new TaskApi()}
+      storageImplementation={new S3Storage()}
+    >
       <Task />
     </TaskApiProvider>
   );
