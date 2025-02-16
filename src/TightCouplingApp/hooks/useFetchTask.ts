@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { fetchTask } from "../fetchTask/fetchTask";
 
 export interface TaskItem {
   userId: number;
@@ -7,21 +8,41 @@ export interface TaskItem {
   completed: boolean;
 }
 
-const processTodo = (todo: TaskItem | undefined): TaskItem | undefined => {
-  // Call s3 bucket
-  console.log("LOG Process todo...⚙️");
-
-  return todo;
-};
-
 export const useFetchTask = (todosId: string) => {
-  const [todo, setTodo] = useState<TaskItem>();
+  const [task, setTask] = useState<TaskItem>();
 
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/todos/${todosId}`)
-      .then((response) => response.json())
-      .then((data) => setTodo(data));
+    fetchTask(todosId).then(async (data) => {
+      const task = applySomeLogic(data);
+      await storeTask(task);
+
+      setTask(task);
+    });
   }, [todosId]);
 
-  return processTodo(todo);
+  if (!task) {
+    return;
+  }
+
+  return task;
+};
+
+const applySomeLogic = (task: TaskItem | undefined): TaskItem | undefined => {
+  console.log("⚙️ Process... format task");
+
+  return task;
+};
+
+const storeTask = async (
+  todo: TaskItem | undefined,
+): Promise<TaskItem | undefined> => {
+  console.log("⚙️ Process... store task in storage");
+
+  try {
+    console.log("✅ Task processed");
+  } catch (e) {
+    throw new Error("Failed to process task");
+  }
+
+  return todo;
 };

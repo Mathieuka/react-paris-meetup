@@ -2,13 +2,13 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 import TightCouplingApp from "./TightCouplingApp";
-import * as useFetchTaskModule from "./hooks/useFetchTask";
+import * as fetchTaskModule from "./fetchTask/fetchTask";
 
 describe("Tight Coupling App", () => {
   test("TightTasks", async () => {
-    const useFetchTodoSpy = vi.spyOn(useFetchTaskModule, "useFetchTask");
+    const useFetchTodoSpy = vi.spyOn(fetchTaskModule, "fetchTask");
 
-    useFetchTodoSpy.mockReturnValue({
+    useFetchTodoSpy.mockResolvedValue({
       userId: 1,
       id: 1,
       title: "Fake implementation",
