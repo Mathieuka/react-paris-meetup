@@ -1,9 +1,9 @@
-import useApi from "../provider/useApi";
+import useTaskService from "../provider/useTaskService";
 import { useEffect, useState } from "react";
 import { TaskItem } from "../core/types";
 
 export const useFetchTask = (taskId: string) => {
-  const { findTask } = useApi();
+  const { findTask } = useTaskService();
   const [task, setTask] = useState<TaskItem>();
 
   useEffect(() => {

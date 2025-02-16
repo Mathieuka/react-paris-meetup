@@ -10,7 +10,7 @@ import { FakeStorageService } from "./services/storage";
 import { FakeTaskService } from "./services/task";
 
 describe("LooseCouplingApp", () => {
-  test("Renders Task", async () => {
+  test("Fetches a task, stores it, and displays it correctly", async () => {
     const inMemoryStorage = new FakeStorageService();
 
     const { findByText } = render(
@@ -33,7 +33,7 @@ describe("LooseCouplingApp", () => {
 
     await waitFor(() => {
       expect(inMemoryStorage.calls).toBe(1);
-      expect(inMemoryStorage.callWith).toStrictEqual({
+      expect(inMemoryStorage.isCalledWith).toStrictEqual({
         completed: false,
         id: 1,
         title: "Fake implementation",

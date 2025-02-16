@@ -4,7 +4,7 @@ import { UnexpectedError } from "../exception";
 
 export class FakeStorageService implements Storage {
   public calls: number = 0;
-  public callWith: TaskItem | undefined;
+  public isCalledWith: TaskItem | undefined;
 
   storeTask(
     task: TaskItem | undefined,
@@ -22,7 +22,7 @@ export class FakeStorageService implements Storage {
       console.log(`✅ S3 task processed with id : ${task.id}`);
 
       this.calls = 1;
-      this.callWith = task;
+      this.isCalledWith = task;
       return persistedTask;
     });
   }

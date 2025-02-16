@@ -18,7 +18,7 @@ interface APIContextProps {
   findTask: (id: string) => Promise<TaskItem>;
 }
 
-export const APIProviderContext = createContext<APIContextProps>({
+export const TaskProviderContext = createContext<APIContextProps>({
   findTask: () => Promise.resolve({} as TaskItem),
 });
 
@@ -31,11 +31,11 @@ const TaskApiProvider = ({
   apiImplementation: Task;
   storageImplementation: Storage;
 }) => (
-  <APIProviderContext.Provider
+  <TaskProviderContext.Provider
     value={createServices({ apiImplementation, storageImplementation })}
   >
     {children}
-  </APIProviderContext.Provider>
+  </TaskProviderContext.Provider>
 );
 
 export default TaskApiProvider;
