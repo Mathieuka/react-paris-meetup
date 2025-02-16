@@ -1,8 +1,18 @@
 import React, { createContext, ReactNode } from "react";
-import { TaskApiAdapter } from "../api/task";
 import { Effect } from "effect";
-import { TaskApi, TaskItem, StorageApi } from "../core/types";
-import { StorageAdapter } from "../api/storage";
+import { Task, TaskItem, Storage } from "../core/types";
+import { StuffError } from "../exception";
+import { createServices } from "../services/createServices";
+
+export class AmazingStuff {
+  execute(task: TaskItem): Effect.Effect<TaskItem, StuffError> {
+    if (!task) {
+      return Effect.fail(new StuffError("Unexpected error occurred"));
+    }
+
+    return Effect.succeed(task);
+  }
+}
 
 interface APIContextProps {
   findTask: (id: string) => Promise<TaskItem>;
@@ -12,37 +22,17 @@ export const APIProviderContext = createContext<APIContextProps>({
   findTask: () => Promise.resolve({} as TaskItem),
 });
 
-const createTodoApiContext = ({
-  apiImplementation,
-  storageImplementation,
-}: {
-  apiImplementation: TaskApi;
-  storageImplementation: StorageApi;
-}) => {
-  const taskApi = new TaskApiAdapter(apiImplementation);
-  const storageApi = new StorageAdapter(storageImplementation);
-
-  return {
-    findTask: async (id: string) => {
-      const task = await taskApi.findTask(id);
-      const program = storageApi.storeTask(task);
-
-      return Effect.runPromise(program);
-    },
-  };
-};
-
 const TaskApiProvider = ({
   children,
   apiImplementation,
   storageImplementation,
 }: {
   children: ReactNode;
-  apiImplementation: TaskApi;
-  storageImplementation: StorageApi;
+  apiImplementation: Task;
+  storageImplementation: Storage;
 }) => (
   <APIProviderContext.Provider
-    value={createTodoApiContext({ apiImplementation, storageImplementation })}
+    value={createServices({ apiImplementation, storageImplementation })}
   >
     {children}
   </APIProviderContext.Provider>

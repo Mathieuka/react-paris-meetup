@@ -1,19 +1,22 @@
 import React from "react";
 import { render, waitFor } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
-import { InMemoryTaskApi } from "./api/task";
-import { Task } from "./LooseCouplingApp";
-import TaskApiProvider from "./provider/TaskProvider";
-import { InMemoryStorage } from "./api/storage";
 
-describe("Loose Coupling App", () => {
-  test("renders LossTasks", async () => {
-    const inMemoryStorage = new InMemoryStorage();
+import { Task } from "./LooseCouplingApp";
+import TaskApiProvider, { AmazingStuff } from "./provider/TaskProvider";
+
+import { Effect } from "effect";
+import { FakeStorageService } from "./services/storage";
+import { FakeTaskService } from "./services/task";
+
+describe("LooseCouplingApp", () => {
+  test("Renders Task", async () => {
+    const inMemoryStorage = new FakeStorageService();
 
     const { findByText } = render(
       <TaskApiProvider
         apiImplementation={
-          new InMemoryTaskApi({
+          new FakeTaskService({
             findTask: {
               userId: 1,
               id: 1,
@@ -39,5 +42,19 @@ describe("Loose Coupling App", () => {
     });
 
     expect(await findByText(/Fake implementation/i)).toBeInTheDocument();
+  });
+
+  test("Do amazing stuff", () => {
+    const amazingStuff = new AmazingStuff();
+    const task = {
+      completed: false,
+      id: 1,
+      title: "Fake implementation",
+      userId: 1,
+    };
+
+    const program = amazingStuff.execute(task);
+
+    expect(Effect.runSync(program)).toEqual(task);
   });
 });

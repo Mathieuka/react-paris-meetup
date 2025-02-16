@@ -1,11 +1,11 @@
 import { Data } from "effect";
 
-export class BucketS3Error extends Data.TaggedError("BucketS3Error") {
-  message = "S3 bucket error occurred";
+export class StuffError extends Data.TaggedError("StuffError") {
+  message = "Stuff error occurred";
 
   constructor(public readonly error: unknown) {
     super();
-    console.error("BucketS3Error:", error);
+    console.error("StuffError:", error);
   }
 }
 

@@ -1,10 +1,10 @@
-import { TaskApi, TaskItem } from "../core/types";
+import { Task, TaskItem } from "../core/types";
 
 type Stub = {
   findTask: TaskItem;
 };
 
-export class InMemoryTaskApi implements TaskApi {
+export class FakeTaskService implements Task {
   private readonly findTaskStub: TaskItem;
 
   constructor(private stub: Stub) {
@@ -19,7 +19,7 @@ export class InMemoryTaskApi implements TaskApi {
   }
 }
 
-export class TaskApiService implements TaskApi {
+export class ProductionTaskService implements Task {
   async findTask(id: string): Promise<TaskItem> {
     try {
       const result = await fetch(
@@ -33,8 +33,8 @@ export class TaskApiService implements TaskApi {
   }
 }
 
-export class TaskApiAdapter implements TaskApi {
-  constructor(private apiClient: TaskApi) {}
+export class TaskService implements Task {
+  constructor(private apiClient: Task) {}
 
   async findTask(id: string): Promise<TaskItem> {
     return this.apiClient.findTask(id);
