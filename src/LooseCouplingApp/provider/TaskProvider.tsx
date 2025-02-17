@@ -1,18 +1,6 @@
-import React, { createContext, ReactNode } from "react";
-import { Effect } from "effect";
-import { Task, TaskItem, Storage } from "../core/types";
-import { StuffError } from "../exception";
+import React, { createContext, ReactNode, useCallback } from "react";
+import { TaskProvider, TaskItem, StorageProvider } from "../core/types";
 import { createServices } from "../services/createServices";
-
-export class AmazingStuff {
-  execute(task: TaskItem): Effect.Effect<TaskItem, StuffError> {
-    if (!task) {
-      return Effect.fail(new StuffError("Unexpected error occurred"));
-    }
-
-    return Effect.succeed(task);
-  }
-}
 
 interface APIContextProps {
   findTask: (id: string) => Promise<TaskItem>;
@@ -24,18 +12,27 @@ export const TaskProviderContext = createContext<APIContextProps>({
 
 const TaskApiProvider = ({
   children,
-  apiImplementation,
+  taskImplementation,
   storageImplementation,
 }: {
   children: ReactNode;
-  apiImplementation: Task;
-  storageImplementation: Storage;
-}) => (
-  <TaskProviderContext.Provider
-    value={createServices({ apiImplementation, storageImplementation })}
-  >
-    {children}
-  </TaskProviderContext.Provider>
-);
+  taskImplementation: TaskProvider;
+  storageImplementation: StorageProvider;
+}) => {
+  const useCreateServices = useCallback(
+    () =>
+      createServices({
+        taskImplementation,
+        storageImplementation,
+      }),
+    [storageImplementation, taskImplementation],
+  );
+
+  return (
+    <TaskProviderContext.Provider value={useCreateServices()}>
+      {children}
+    </TaskProviderContext.Provider>
+  );
+};
 
 export default TaskApiProvider;

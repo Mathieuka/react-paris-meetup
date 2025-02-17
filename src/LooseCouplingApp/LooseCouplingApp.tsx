@@ -9,7 +9,7 @@ import { S3StorageService } from "./services/storage";
 function LooseCouplingApp() {
   return (
     <TaskApiProvider
-      apiImplementation={new ProductionTaskService()}
+      taskImplementation={new ProductionTaskService()}
       storageImplementation={new S3StorageService()}
     >
       <Task />

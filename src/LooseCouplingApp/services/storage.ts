@@ -1,8 +1,8 @@
 import { Effect } from "effect";
-import { Storage, TaskItem } from "../core/types";
+import { StorageProvider, TaskItem } from "../core/types";
 import { UnexpectedError } from "../exception";
 
-export class FakeStorageService implements Storage {
+export class FakeStorageService implements StorageProvider {
   public calls: number = 0;
   public isCalledWith: TaskItem | undefined;
 
@@ -21,14 +21,14 @@ export class FakeStorageService implements Storage {
       const persistedTask = yield* _(Effect.succeed(task));
       console.log(`✅ S3 task processed with id : ${task.id}`);
 
-      this.calls = 1;
+      this.calls += 1;
       this.isCalledWith = task;
       return persistedTask;
     });
   }
 }
 
-export class S3StorageService implements Storage {
+export class S3StorageService implements StorageProvider {
   storeTask(
     task: TaskItem | undefined,
   ): Effect.Effect<TaskItem, UnexpectedError> {
@@ -49,8 +49,8 @@ export class S3StorageService implements Storage {
   }
 }
 
-export class StorageService implements Storage {
-  constructor(private storageClient: Storage) {}
+export class StorageService implements StorageProvider {
+  constructor(private storageClient: StorageProvider) {}
 
   storeTask(task: TaskItem): Effect.Effect<TaskItem, UnexpectedError> {
     return Effect.gen(this, function* (_) {

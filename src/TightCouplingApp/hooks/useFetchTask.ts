@@ -8,17 +8,17 @@ export interface TaskItem {
   completed: boolean;
 }
 
-export const useFetchTask = (todosId: string) => {
+export const useFetchTask = (taskId: string) => {
   const [task, setTask] = useState<TaskItem>();
 
   useEffect(() => {
-    fetchTask(todosId).then(async (data) => {
+    fetchTask(taskId).then(async (data) => {
       const task = applySomeLogic(data);
-      await storeTask(task);
+      await storeMetaData("Task metadata");
 
       setTask(task);
     });
-  }, [todosId]);
+  }, [taskId]);
 
   if (!task) {
     return;
@@ -28,14 +28,14 @@ export const useFetchTask = (todosId: string) => {
 };
 
 const applySomeLogic = (task: TaskItem | undefined): TaskItem | undefined => {
-  console.log("⚙️ Process... format task");
+  console.log("⚙️ Process... format task", task);
 
   return task;
 };
 
-const storeTask = async (
-  todo: TaskItem | undefined,
-): Promise<TaskItem | undefined> => {
+const storeMetaData = async (
+  metadata: string | undefined,
+): Promise<string | undefined> => {
   console.log("⚙️ Process... store task in storage");
 
   try {
@@ -44,5 +44,5 @@ const storeTask = async (
     throw new Error("Failed to process task");
   }
 
-  return todo;
+  return metadata;
 };

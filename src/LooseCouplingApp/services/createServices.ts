@@ -1,17 +1,16 @@
-import { Storage, Task } from "../core/types";
-
+import { StorageProvider, TaskProvider } from "../core/types";
 import { Effect } from "effect";
 import { TaskService } from "./task";
 import { StorageService } from "./storage";
 
 export const createServices = ({
-  apiImplementation,
+  taskImplementation,
   storageImplementation,
 }: {
-  apiImplementation: Task;
-  storageImplementation: Storage;
+  taskImplementation: TaskProvider;
+  storageImplementation: StorageProvider;
 }) => {
-  const taskApi = new TaskService(apiImplementation);
+  const taskApi = new TaskService(taskImplementation);
   const storageApi = new StorageService(storageImplementation);
 
   return {

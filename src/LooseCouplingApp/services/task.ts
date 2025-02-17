@@ -1,25 +1,33 @@
-import { Task, TaskItem } from "../core/types";
+import { TaskProvider, TaskItem } from "../core/types";
 
 type Stub = {
-  findTask: TaskItem;
+  stub: {
+    findTask: TaskItem;
+  };
 };
 
-export class FakeTaskService implements Task {
+export class FakeTaskService implements TaskProvider {
   private readonly findTaskStub: TaskItem;
 
-  constructor(private stub: Stub) {
-    this.findTaskStub = stub.findTask;
+  public calls: number = 0;
+  public isCalledWith: TaskItem | undefined;
+
+  constructor(private param: Stub) {
+    this.findTaskStub = param.stub.findTask;
   }
 
   async findTask(id: string): Promise<TaskItem> {
     console.log(`Task id: ${id}`);
+    this.calls += 1;
+    this.isCalledWith = this.findTaskStub;
+
     return new Promise((resolve) => {
       resolve(this.findTaskStub);
     });
   }
 }
 
-export class ProductionTaskService implements Task {
+export class ProductionTaskService implements TaskProvider {
   async findTask(id: string): Promise<TaskItem> {
     try {
       const result = await fetch(
@@ -33,10 +41,10 @@ export class ProductionTaskService implements Task {
   }
 }
 
-export class TaskService implements Task {
-  constructor(private apiClient: Task) {}
+export class TaskService implements TaskProvider {
+  constructor(private taskClient: TaskProvider) {}
 
   async findTask(id: string): Promise<TaskItem> {
-    return this.apiClient.findTask(id);
+    return this.taskClient.findTask(id);
   }
 }
