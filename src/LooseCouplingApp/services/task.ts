@@ -1,23 +1,16 @@
 import { TaskRepository, TaskItem } from "../core/types";
 
-type Stub = {
-  stub: {
-    findTask: TaskItem;
-  };
-};
-
 export class FakeTaskService implements TaskRepository {
-  private readonly findTaskStub: TaskItem;
-
-  constructor(private param: Stub) {
-    this.findTaskStub = param.stub.findTask;
-  }
-
   async findTask(id: string): Promise<TaskItem> {
     console.log(`Task id: ${id}`);
 
     return new Promise((resolve) => {
-      resolve(this.findTaskStub);
+      resolve({
+        userId: 1,
+        id: 1,
+        title: "Some title",
+        completed: true,
+      });
     });
   }
 }
