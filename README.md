@@ -2,8 +2,9 @@
 
 This project has an educational purpose and was used at the React Paris meetup on February 19, 2025 to show:
 
-• The difference between fake and mock and how to use them consciously.
-• How to decouple your application by introducing concepts that are simple in substance but often too complex in form, such as dependency inversion, dependency injection and inversion of control.
+The difference between fake and mock and how to use them consciously.
+
+How to decouple your application by introducing concepts that are simple in substance but often too complex in form, such as dependency inversion, dependency injection and inversion of control.
 
 ## Available Scripts
 
