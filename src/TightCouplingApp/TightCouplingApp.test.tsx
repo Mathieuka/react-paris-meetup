@@ -2,25 +2,27 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 import TightCouplingApp from "./TightCouplingApp";
-import * as fetchTaskModule from "./hooks/useFetchTask";
+import * as fetchTaskModule from "./fetchTask/fetchTask";
+import * as storeMetadataModule from "./storeMetada/storeMetadata";
 
 describe("Tight Coupling App", () => {
-  test("Fetches a task, stores it, and displays it correctly", async () => {
-    // naming smell bad (and) comment test les services à part de l'UI
-    const useFetchTaskSpy = vi.spyOn(fetchTaskModule, "useFetchTask");
+  test("Fetch a task and displays it correctly", async () => {
+    // Prepare
+    const useFetchTaskMock = vi.spyOn(fetchTaskModule, "fetchTask");
+    const storeMetadataMock = vi.spyOn(storeMetadataModule, "storeMetaData");
 
-    useFetchTaskSpy.mockImplementation(() => ({
+    useFetchTaskMock.mockResolvedValue({
       userId: 1,
       id: 1,
       title: "Fake implementation",
       completed: false,
-    }));
+    });
+    storeMetadataMock.mockImplementation(() => Promise.resolve(true));
 
+    // Execute
     const { findByText } = render(<TightCouplingApp />);
 
-    expect(useFetchTaskSpy).toHaveBeenCalledWith("1");
-    expect(useFetchTaskSpy).toHaveBeenCalledTimes(1);
-
+    // Assert
     expect(await findByText(/Fake implementation/i)).toBeInTheDocument();
   });
 });

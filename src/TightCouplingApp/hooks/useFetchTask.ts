@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchTask } from "../fetchTask/fetchTask";
+import { storeMetaData } from "../storeMetada/storeMetadata";
 
 export interface TaskItem {
   userId: number;
@@ -8,17 +9,17 @@ export interface TaskItem {
   completed: boolean;
 }
 
-export const useFetchTask = (taskId: string) => {
+export const useFetchTask = ({ id }: { id: string }) => {
   const [task, setTask] = useState<TaskItem>();
 
   useEffect(() => {
-    fetchTask(taskId).then(async (data) => {
+    fetchTask(id).then(async (data) => {
       const task = applySomeLogic(data);
       await storeMetaData("Task metadata");
 
       setTask(task);
     });
-  }, [taskId]);
+  }, [id]);
 
   if (!task) {
     return;
@@ -31,18 +32,4 @@ const applySomeLogic = (task: TaskItem | undefined): TaskItem | undefined => {
   console.log("⚙️ Process... format task", task);
 
   return task;
-};
-
-const storeMetaData = async (
-  metadata: string | undefined,
-): Promise<string | undefined> => {
-  console.log("⚙️ Process... store task in storage");
-
-  try {
-    console.log("✅ Task processed");
-  } catch (e) {
-    throw new Error("Failed to process task");
-  }
-
-  return metadata;
 };

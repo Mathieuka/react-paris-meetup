@@ -1,74 +1,53 @@
-import React from "react";
-import { render, waitFor } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
-import { Task } from "./LooseCouplingApp";
-import TaskApiProvider from "./provider/TaskProvider";
-import { FakeStorageService } from "./services/storage";
-import { FakeTaskService } from "./services/task";
+import { describe, expect, test, vi } from "vitest";
+import { StorageService } from "./services/storage";
+import { TaskService } from "./services/task";
 import { createServices } from "./services/createServices";
+import { StorageRepository, TaskRepository } from "./core/types";
+import { Effect } from "effect";
 
-describe("Loose Coupling App", () => {
-  test("Fetch a task and displays it correctly", async () => {
-    const inMemoryStorage = new FakeStorageService();
-    const inMemoryTask = new FakeTaskService({
-      stub: {
-        findTask: {
-          userId: 1,
-          id: 1,
-          title: "Fake implementation",
-          completed: false,
-        },
-      },
+describe("Fetch Task Service", () => {
+  test("Find task by id with mock", async () => {
+    // Prepare
+    const findTaskMock = vi.fn().mockResolvedValue({
+      userId: 1,
+      id: 1,
+      title: "Some title",
+      completed: true,
     });
 
-    const { findByText } = render(
-      <TaskApiProvider
-        taskImplementation={inMemoryTask}
-        storageImplementation={inMemoryStorage}
-      >
-        <Task />
-      </TaskApiProvider>,
+    const storeTaskMock = vi.fn().mockReturnValue(
+      Effect.succeed({
+        userId: 1,
+        id: 1,
+        title: "Some title",
+        completed: true,
+      }),
     );
 
-    expect(await findByText(/Fake implementation/i)).toBeInTheDocument();
-  });
+    const mockTaskClient: TaskRepository = {
+      findTask: findTaskMock,
+    };
+    const mockStorageClient: StorageRepository = {
+      storeTask: storeTaskMock,
+    };
 
-  test("Find task service", async () => {
-    const inMemoryStorage = new FakeStorageService();
-    const inMemoryTask = new FakeTaskService({
-      stub: {
-        findTask: {
-          userId: 1,
-          id: 1,
-          title: "Fake implementation",
-          completed: false,
-        },
-      },
-    });
+    const taskService = new TaskService(mockTaskClient);
+    const storageService = new StorageService(mockStorageClient);
 
     const services = createServices({
-      taskImplementation: inMemoryTask,
-      storageImplementation: inMemoryStorage,
+      taskImplementation: taskService,
+      storageImplementation: storageService,
     });
 
-    await services.findTask("1");
+    // Execute
+    const result = await services.findTask("1");
 
-    await waitFor(() => {
-      expect(inMemoryTask.calls).toBe(1);
-      expect(inMemoryTask.isCalledWith).toStrictEqual({
-        completed: false,
-        id: 1,
-        title: "Fake implementation",
-        userId: 1,
-      });
-
-      expect(inMemoryStorage.calls).toBe(1);
-      expect(inMemoryStorage.isCalledWith).toStrictEqual({
-        completed: false,
-        id: 1,
-        title: "Fake implementation",
-        userId: 1,
-      });
+    // Assert
+    expect(result).toStrictEqual({
+      completed: true,
+      id: 1,
+      title: "Some title",
+      userId: 1,
     });
   });
 });

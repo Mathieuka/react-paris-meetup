@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useCallback } from "react";
-import { TaskProvider, TaskItem, StorageProvider } from "../core/types";
+import { TaskRepository, TaskItem, StorageRepository } from "../core/types";
 import { createServices } from "../services/createServices";
 
 interface APIContextProps {
@@ -16,8 +16,8 @@ const TaskApiProvider = ({
   storageImplementation,
 }: {
   children: ReactNode;
-  taskImplementation: TaskProvider;
-  storageImplementation: StorageProvider;
+  taskImplementation: TaskRepository;
+  storageImplementation: StorageRepository;
 }) => {
   const useCreateServices = useCallback(
     () =>

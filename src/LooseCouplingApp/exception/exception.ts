@@ -9,11 +9,11 @@ export class StuffError extends Data.TaggedError("StuffError") {
   }
 }
 
-export class UnexpectedError extends Data.TaggedError("UnexpectedError") {
+export class StorageError extends Data.TaggedError("StorageError") {
   message = "Unexpected error occurred";
 
   constructor(public readonly error: unknown) {
     super();
-    console.error("UnexpectedError:", error);
+    console.error("StorageError:", error);
   }
 }

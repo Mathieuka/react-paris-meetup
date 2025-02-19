@@ -4,13 +4,13 @@ import "./LooseCouplingApp.css";
 import { useFetchTask } from "./hooks/useFetchTask";
 import TaskApiProvider from "./provider/TaskProvider";
 import { ProductionTaskService } from "./services/task";
-import { S3StorageService } from "./services/storage";
+import { LocalStorageService } from "./services/storage";
 
 function LooseCouplingApp() {
   return (
     <TaskApiProvider
       taskImplementation={new ProductionTaskService()}
-      storageImplementation={new S3StorageService()}
+      storageImplementation={new LocalStorageService()}
     >
       <Task />
     </TaskApiProvider>

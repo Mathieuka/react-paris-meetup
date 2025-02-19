@@ -1,4 +1,4 @@
-import { UnexpectedError } from "../exception";
+import { StorageError } from "../exception";
 import { Effect } from "effect";
 
 export interface TaskItem {
@@ -8,12 +8,10 @@ export interface TaskItem {
   completed: boolean;
 }
 
-export interface TaskProvider {
+export interface TaskRepository {
   findTask: (id: string) => Promise<TaskItem>;
 }
 
-export interface StorageProvider {
-  storeTask: (
-    task: TaskItem,
-  ) => Effect.Effect<TaskItem, UnexpectedError, never>;
+export interface StorageRepository {
+  storeTask: (task: TaskItem) => Effect.Effect<TaskItem, StorageError>;
 }

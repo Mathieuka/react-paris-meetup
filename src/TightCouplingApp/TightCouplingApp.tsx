@@ -7,11 +7,11 @@ function TightCouplingApp() {
 }
 
 const Task = () => {
-  const task = useFetchTask("1");
+  const task = useFetchTask({ id: "1" });
 
   return (
     <div>
-      <h1>Tight Tasks</h1>
+      <h1>Task</h1>
       {!task && <p>Loading...</p>}
       {task && <li key={task.id}>{task.title}</li>}
     </div>
