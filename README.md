@@ -1,4 +1,4 @@
-# Getting Started 
+# React Meetup Paris 2025
 
 This project has an educational purpose and was used at the React Paris meetup on February 19, 2025 to show:
 
